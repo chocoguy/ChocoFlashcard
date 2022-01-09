@@ -1,10 +1,33 @@
-import React from 'react'
-
+import React, { Fragment } from 'react'
+import { Routes, Route, Link, BrowserRouter} from "react-router-dom";
+import { Home } from './components/Home';
+import { NotFound } from './Controls/NotFound';
+import { ViewFlashCards } from './components/ViewFlashCards';
+import { EditFlashCards } from './components/EditFlashCards';
+import { DeleteFlashCards } from './components/DeleteFlashCards';
+import { AddEditFlashCards } from './components/AddEditFlashCards';
+import { About } from './components/About';
+import { FlashCardPractice } from './components/FlashCardPractice';
+import { FlashCardCollection } from './components/FlashCardCollection';
 export const App = () => {
 
+    
+
     return(
-        <div>
-            <h1>Name JEFF</h1>
-        </div>
+        <Fragment>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home />}  />
+                    <Route path="/viewflashcards" element={<ViewFlashCards />} />
+                    <Route path="/editflashcards" element={<EditFlashCards />} />
+                    <Route path="/deleteflashcards" element={<DeleteFlashCards />} />
+                    <Route path="/addeditflashcards/:collectionid" element={<AddEditFlashCards />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/flashcards/:collectionid" element={<FlashCardCollection />} />
+                    <Route path="/practice/:collectionid" element={<FlashCardPractice />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </BrowserRouter>
+        </Fragment>
     )
 }
