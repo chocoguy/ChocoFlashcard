@@ -5,6 +5,7 @@ import  Cole  from '../public/assets/cole.jpg';
 import { dbService } from '../db/dbService';
 import { Collection } from '../db/Collection.types';
 import { v4 as uuid } from 'uuid';
+import { Flashcard } from '../db/flashcard.types';
 
 
 
@@ -61,6 +62,51 @@ export const Home = () => {
 
     }
 
+
+    async function insertAll(){
+
+        var collectionidee = uuid();
+
+        var collectionObj : Collection = {
+            collectionid : collectionidee,
+            name : "collection 1",
+            flashCardCount : 3
+        }
+
+        var flashcardObj1 : Flashcard = {
+            flashcardid : "$" + uuid(),
+            collectionid : collectionidee,
+            countId : 1,
+            frontSide : "9+10",
+            backSide : "21"
+        }
+        var flashcardObj2 : Flashcard = {
+            flashcardid : "$" + uuid(),
+            collectionid : collectionidee,
+            countId : 2,
+            frontSide : "777",
+            backSide : "LETS GOOOOOO"
+        }
+        var flashcardObj3 : Flashcard = {
+            flashcardid : "$" + uuid(),
+            collectionid : collectionidee,
+            countId : 3,
+            frontSide : "powerhouse of the cell",
+            backSide : "mitochondria"
+        }
+
+        var flashCardArray : Array<Flashcard> = [];
+        flashCardArray.push(flashcardObj1);
+        flashCardArray.push(flashcardObj2);
+        flashCardArray.push(flashcardObj3);
+
+        dbService.insertCollectionAndFlashCards(collectionObj, flashCardArray);
+
+        console.log("ADD ALL")
+
+    }
+
+
     async function seeCollections() {
         var coll = await dbService.getSingleCollectionById('02ddc7d8-0f7c-4ed7-b3d9-67beabf2fce7');
         await setCollections({
@@ -97,6 +143,7 @@ export const Home = () => {
             <button onClick={async () => await seeCollections()}>See Collections</button>
             <button onClick={() => console.log(collections.collection)}>See AGAIN</button>
             <button onClick={async () => await addCollection()}>Add Collection</button>
+            <button onClick={async () => await insertAll()}>Insert ALL</button>
             <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>
         Click me

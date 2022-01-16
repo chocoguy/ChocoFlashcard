@@ -51,7 +51,33 @@ export class dbService {
     }
 
 
-    
+    static async getSingleFlashCardById(flashcardId : string){
+        const db = await openDB('flashcards', 1);
+        var tx = db.transaction('flashcard', 'readonly');
+        var store = tx.objectStore('flashcard');
+        return store.get(flashcardId);
+    }
+
+
+    static async insertCollectionAndFlashCards(collectionObject : Collection, flashCardArray : Array<Flashcard>){
+        const db = await openDB('flashcards', 1);
+        var flashcardtx = db.transaction('flashcard', 'readwrite');
+        var flashcardstore = flashcardtx.objectStore('flashcard')
+
+        var collectiontx = db.transaction('collection', 'readwrite');
+        var collectionstore = collectiontx.objectStore('collection');
+
+        collectionstore.add(collectionObject);
+        
+        for (let i = 0; i < flashCardArray.length; i++) {
+            flashcardstore.add(flashCardArray[i])
+            
+        }
+
+    }
+
+
+
 
 
 

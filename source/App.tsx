@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Routes, Route, Link, BrowserRouter} from "react-router-dom";
+import { Routes, Route, Link, HashRouter} from "react-router-dom";
 import { Home } from './components/Home';
 import { NotFound } from './Controls/NotFound';
 import { ViewFlashCards } from './components/ViewFlashCards';
@@ -15,7 +15,7 @@ export const App = () => {
 
     return(
         <Fragment>
-            <BrowserRouter>
+            <HashRouter>
                 <Routes>
                     <Route path="/" element={<Home />}  />
                     <Route path="/viewflashcards" element={<ViewFlashCards />} />
@@ -27,7 +27,7 @@ export const App = () => {
                     <Route path="/practice/:collectionid" element={<FlashCardPractice />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </Fragment>
     )
 }
