@@ -1,5 +1,5 @@
 export type Flashcard = {
-    flashcardid : String,
+    flashcardid : string,
     collectionid : string,
     countId : number,
     frontSide : string,
