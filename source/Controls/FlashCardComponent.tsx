@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, Link } from "react-router-dom";
-import { Flashcard } from '../db/flashcard.types';
+import { Flashcard } from '../db/Flashcard.types';
 
 type FlashCardComponentProps = {
     flashCard : Flashcard,
@@ -10,43 +10,59 @@ type FlashCardComponentProps = {
 
 export const FlashCardComponent = (props : FlashCardComponentProps) => {
 
+
+
     const [frontSideContent, setFrontSideContent] = useState("");
     const [backSideContent, setBackSideContent] = useState("");
+    const [editMode, setEditMode] = useState(false)
 
     useEffect(() => {
-        setFrontSideContent(props.flashCard.frontSide)
-        setBackSideContent(props.flashCard.backSide)
+        setEditMode(props.editMode)
+        setFrontSideContent(props.flashCard.frontside)
+        setBackSideContent(props.flashCard.backside)
     }, [])
 
     function saveChanges() {
-        props.editMode = false;
-        props.flashCard.frontSide = frontSideContent;
-        props.flashCard.backSide = backSideContent;
-        props.passEditFlashCard(props.flashCard);
+        setEditMode(false)
+        //props.flashCard.frontside = frontSideContent;
+        //props.flashCard.backside = backSideContent;
+        var flashCardToSend : Flashcard = {
+            flashcardid : props.flashCard.flashcardid,
+            collectionid : props.flashCard.collectionid,
+            countid : props.flashCard.countid,
+            frontside : frontSideContent,
+            backside : backSideContent
+        }
+        props.passEditFlashCard(flashCardToSend);
     }
 
     function cancelChanges() {
-        props.editMode = false;
-        setFrontSideContent(props.flashCard.frontSide)
-        setBackSideContent(props.flashCard.backSide)
+        setEditMode(false)
+        setFrontSideContent(props.flashCard.frontside)
+        setBackSideContent(props.flashCard.backside)
     }
 
-    if(props.editMode == false)
+    function initEditMode() {
+        setEditMode(true)
+        
+    }
+
+    if(editMode == false)
     {
         return (
             <div>
     
-                <p>Flash card No: {props.flashCard.countId}</p>
+                <p>Flash card No: {props.flashCard.countid}</p>
                 <input type="text" disabled value={frontSideContent} />
                 <input type="text" disabled value={backSideContent}  />
-                <button onClick={() => props.editMode = true}>Edit</button>
+                <button onClick={() => initEditMode()}>Edit</button>
             </div>
         )
     }else{
         return (
             <div>
     
-                <p>Flash card No: {props.flashCard.countId}</p>
+                <p>Flash card No: {props.flashCard.countid}</p>
                 <input type="text" value={frontSideContent} onChange={(e) => setFrontSideContent(e.target.value)} />
                 <input type="text" value={backSideContent} onChange={(e) => setBackSideContent(e.target.value)} />
                 <button onClick={() => saveChanges()}>Save</button>

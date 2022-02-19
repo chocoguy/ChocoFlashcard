@@ -5,7 +5,8 @@ import  Cole  from '../public/assets/cole.jpg';
 import { dbService } from '../db/dbService';
 import { Collection } from '../db/Collection.types';
 import { v4 as uuid } from 'uuid';
-import { Flashcard } from '../db/flashcard.types';
+import { Flashcard } from '../db/Flashcard.types';
+import { CollectionWithFlashcard } from '../db/CollectionWithFlashcard';
 
 
 
@@ -50,7 +51,7 @@ export const Home = () => {
         var collectionObj : Collection = {
             collectionid : uuid(),
             name : collectionName,
-            flashCardCount : collectionCount
+            flashcardcount : collectionCount
         }
 
         dbService.insertSingleCollection(collectionObj);
@@ -62,6 +63,23 @@ export const Home = () => {
 
     }
 
+    async function getCollectionWFlashcards() {
+       var collection1 = await dbService.getSingleCollectionById("af3cd638-2c6f-48ef-8c83-794a7a527d52");
+       var flashcards1 = await dbService.getFlashcardsByCollectionId("af3cd638-2c6f-48ef-8c83-794a7a527d52");
+
+       //console.log(collection1);
+      //console.log(flashcards1);
+
+      var collWFlashCards : CollectionWithFlashcard = {
+          collectionid : collection1.collectionid,
+          name : collection1.name,
+          flashCardCount : collection1.flashcardcount,
+          flashcards : flashcards1
+      }
+
+      console.log(collWFlashCards)
+    }
+
 
     async function insertAll(){
 
@@ -70,29 +88,29 @@ export const Home = () => {
         var collectionObj : Collection = {
             collectionid : collectionidee,
             name : "collection 1",
-            flashCardCount : 3
+            flashcardcount : 3
         }
 
         var flashcardObj1 : Flashcard = {
             flashcardid : "$" + uuid(),
             collectionid : collectionidee,
-            countId : 1,
-            frontSide : "9+10",
-            backSide : "21"
+            countid : 1,
+            frontside : "9+10",
+            backside : "21"
         }
         var flashcardObj2 : Flashcard = {
             flashcardid : "$" + uuid(),
             collectionid : collectionidee,
-            countId : 2,
-            frontSide : "777",
-            backSide : "LETS GOOOOOO"
+            countid : 2,
+            frontside : "777",
+            backside : "LETS GOOOOOO"
         }
         var flashcardObj3 : Flashcard = {
             flashcardid : "$" + uuid(),
             collectionid : collectionidee,
-            countId : 3,
-            frontSide : "powerhouse of the cell",
-            backSide : "mitochondria"
+            countid : 3,
+            frontside : "powerhouse of the cell",
+            backside : "mitochondria"
         }
 
         var flashCardArray : Array<Flashcard> = [];
@@ -144,6 +162,7 @@ export const Home = () => {
             <button onClick={() => console.log(collections.collection)}>See AGAIN</button>
             <button onClick={async () => await addCollection()}>Add Collection</button>
             <button onClick={async () => await insertAll()}>Insert ALL</button>
+            <button onClick={async () => await getCollectionWFlashcards()}>Get collectionWFlashcard</button>
             <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>
         Click me
@@ -158,3 +177,6 @@ export const Home = () => {
         </div>
     )
 }
+
+//loadcollection
+//insertall

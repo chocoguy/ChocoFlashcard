@@ -1,6 +1,6 @@
-import { Flashcard } from "./flashcard.types";
+import { Flashcard } from "./Flashcard.types";
 
-export type AddEditCollection = {
+export type CollectionWithFlashcard = {
     collectionid : string,
     name : string,
     flashCardCount : number
