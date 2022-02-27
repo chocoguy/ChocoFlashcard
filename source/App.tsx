@@ -9,6 +9,7 @@ import { AddEditFlashCards } from './components/AddEditFlashCards';
 import { About } from './components/About';
 import { FlashCardPractice } from './components/FlashCardPractice';
 import { FlashCardCollection } from './components/FlashCardCollection';
+import { AddEditCollection } from './components/AddEditCollection';
 export const App = () => {
 
     
@@ -22,6 +23,7 @@ export const App = () => {
                     <Route path="/editflashcards" element={<EditFlashCards />} />
                     <Route path="/deleteflashcards" element={<DeleteFlashCards />} />
                     <Route path="/addeditflashcards/:collectionid" element={<AddEditFlashCards />} />
+                    <Route path="/addeditcollection/:collectionid" element={<AddEditCollection />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/flashcards/:collectionid" element={<FlashCardCollection />} />
                     <Route path="/practice/:collectionid" element={<FlashCardPractice />} />

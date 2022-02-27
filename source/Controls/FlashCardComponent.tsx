@@ -5,6 +5,7 @@ import { Flashcard } from '../db/Flashcard.types';
 type FlashCardComponentProps = {
     flashCard : Flashcard,
     passEditFlashCard : Function,
+    passDeleteFlashCard : Function,
     editMode : boolean
 }
 
@@ -42,6 +43,12 @@ export const FlashCardComponent = (props : FlashCardComponentProps) => {
         setBackSideContent(props.flashCard.backside)
     }
 
+    function deleteFlashCard() {
+        setEditMode(false)
+        props.passDeleteFlashCard(props.flashCard)
+
+    }
+
     function initEditMode() {
         setEditMode(true)
         
@@ -56,6 +63,7 @@ export const FlashCardComponent = (props : FlashCardComponentProps) => {
                 <input type="text" disabled value={frontSideContent} />
                 <input type="text" disabled value={backSideContent}  />
                 <button onClick={() => initEditMode()}>Edit</button>
+                <button onClick={() => deleteFlashCard()}>Delete</button>
             </div>
         )
     }else{
@@ -67,6 +75,7 @@ export const FlashCardComponent = (props : FlashCardComponentProps) => {
                 <input type="text" value={backSideContent} onChange={(e) => setBackSideContent(e.target.value)} />
                 <button onClick={() => saveChanges()}>Save</button>
                 <button onClick={() => cancelChanges()}>Cancel</button>
+                <button onClick={() => deleteFlashCard()}>Delete</button>
             </div>
         )
     }

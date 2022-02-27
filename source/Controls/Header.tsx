@@ -1,8 +1,16 @@
 import React from 'react'
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 
 export const Header = () => {
+
+    let navigate = useNavigate();
+
+    async function initAddFlashCards() {
+        sessionStorage.setItem("initNewSet", "yea")
+        navigate("/addeditcollection/-1")
+    }
+
 
     return(
 
@@ -10,10 +18,12 @@ export const Header = () => {
             <nav style={{ display: 'flex',  }}>
                 <p>Test build yea..</p>
                 <Link to="/">Home |</Link>
+                <Link to="#" onClick={() => initAddFlashCards()}>Add Flashcards! |</Link>
                 <Link to="/viewflashcards">View! |</Link>
                 <Link to="/editflashcards">Edit! |</Link>
                 <Link to="/deleteflashcards">Delete! |</Link>
-                <Link to="/addeditflashcards/-1">Add! | </Link>
+                <Link to="/addeditflashcards/-1">Add ! | </Link>
+                <Link to="/addeditcollection/-1">Add Collection! |</Link>
                 <Link to="/about">About! | </Link>
                 <Link to="/flashcards/21">Flashcards | </Link>
                 <Link to="/practice/123">Practice |</Link>

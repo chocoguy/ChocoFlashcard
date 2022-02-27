@@ -15,6 +15,9 @@ export const AddEditFlashCards =  () => {
     let params = useParams();
     var MainFlashCardArray : Array<Flashcard> = []
     var newCollectionUUID : string = uuid();
+    var currentSetCollectionID = sessionStorage.getItem("currentCollectionID")
+    var isNewSet = sessionStorage.getItem("initNewSet");
+
     
 
     //--------------------------------------------- COLLECTIONWITHFLASHCARD COLLECTION ----------------------------------
@@ -66,6 +69,22 @@ export const AddEditFlashCards =  () => {
             })
             //MainFlashCardArray.push(Flashcard);
         }
+    }
+
+    async function PassDeleteFlashCard(Flashcard : Flashcard) {
+        var flashCardsToDelete : Array<Flashcard> = collection.flashcards;
+
+        var index = flashCardsToDelete.findIndex(element => element.flashcardid == Flashcard.flashcardid);
+
+        flashCardsToDelete.splice(index, 1);
+
+        setCollection({
+            collectionid : collection.collectionid,
+            name : collection.name,
+            flashCardCount : collection.flashCardCount,
+            flashcards : flashCardsToDelete
+        })
+
     }
 
     
@@ -121,12 +140,24 @@ export const AddEditFlashCards =  () => {
         }
         //ADD MODE
         else{
-            await setCollection({
-                collectionid : newCollectionUUID,
-                name : 'new collection',
-                flashCardCount : 0,
-                flashcards :  []
-            })
+
+            if(isNewSet == "yea"){
+                await setCollection({
+                    //typescript being a dumbass
+                    collectionid : currentSetCollectionID,
+                    name : 'new collection',
+                    flashCardCount : 0,
+                    flashcards :  []
+                })
+            }else{
+                await setCollection({
+                    collectionid : newCollectionUUID,
+                    name : 'new collection',
+                    flashCardCount : 0,
+                    flashcards :  []
+                })
+            }
+
             MainFlashCardArray = collection.flashcards;
             //await setDisplayFlashCardArray(collection.flashcards)
         }
@@ -153,12 +184,24 @@ export const AddEditFlashCards =  () => {
         console.log(updatedFlashCardArray)
         dbService.updateCollectionAndFlashCards(updatedCollectionObj, updatedFlashCardArray);
 
-        console.log("Update")
+        navigate('/')
     }
 
 
     async function cancel(){
        navigate('/');
+    }
+
+    async function cancelSet(){
+        var collectionToDelete : Collection = {
+            collectionid : collection.collectionid,
+            name : collection.name,
+            flashcardcount : collection.flashCardCount
+        }
+        dbService.deleteSingleCollection(collectionToDelete)
+        sessionStorage.removeItem("currentCollectionID")
+        sessionStorage.removeItem("initNewSet")
+        navigate('/');
     }
 
 
@@ -171,7 +214,7 @@ export const AddEditFlashCards =  () => {
 
 
 
-    if(params.collectionid == "-1"){
+    if(params.collectionid == "-1" && isNewSet == "yea"){
 
 
         return (
@@ -181,11 +224,33 @@ export const AddEditFlashCards =  () => {
                 <h1>Add new cards</h1>
                 {collection.flashcards.map(flashcard => (
                     <div key={flashcard.flashcardid}>
-                    <FlashCardComponent  flashCard={flashcard} passEditFlashCard={EditFlashCard} editMode={false} />
+                    <FlashCardComponent  flashCard={flashcard} passEditFlashCard={EditFlashCard} passDeleteFlashCard={PassDeleteFlashCard} editMode={false} />
                     </div>
                 ))}
                 <div className="edit-btns">
                     <button onClick={() => initNewFlashCard()}>New Flashcard</button>
+                    <button onClick={() => saveAll()}>Save all</button>
+                    <button onClick={() => cancelSet()}>Cancel</button>
+                </div>
+            </div>
+        )
+    }else if(params.collectionid == "-1"){
+
+
+        return (
+            
+            <div>
+                <Header />                
+                <h1>Add new cards</h1>
+                {collection.flashcards.map(flashcard => (
+                    <div key={flashcard.flashcardid}>
+                    <FlashCardComponent  flashCard={flashcard} passEditFlashCard={EditFlashCard} passDeleteFlashCard={PassDeleteFlashCard} editMode={false} />
+                    </div>
+                ))}
+                <div className="edit-btns">
+                    <button onClick={() => initNewFlashCard()}>New Flashcard</button>
+                    <button onClick={() => saveAll()}>Save all</button>
+                    <button onClick={() => cancel()}>Cancel</button>
                 </div>
             </div>
         )
@@ -197,7 +262,7 @@ export const AddEditFlashCards =  () => {
             <h1>collection name: {collection.name}</h1>
             {collection.flashcards.map(flashcard => (
                     <div key={flashcard.flashcardid}>
-                    <FlashCardComponent  flashCard={flashcard} passEditFlashCard={EditFlashCard} editMode={false} />
+                    <FlashCardComponent  flashCard={flashcard} passEditFlashCard={EditFlashCard} passDeleteFlashCard={PassDeleteFlashCard} editMode={false} />
                     </div>
                 ))}
                 <div className="edit-btns">
