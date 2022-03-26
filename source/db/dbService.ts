@@ -22,7 +22,7 @@ export class dbService {
                     keyPath : 'flashcardid'
                 });
                 flashcardStore.createIndex('collectionid', 'collectionid', {unique : false})
-                flashcardStore.createIndex('countid', 'countid', {unique : true})
+                flashcardStore.createIndex('countid', 'countid', {unique : false})
                 flashcardStore.createIndex('frontside', 'frontside', {unique : false})
                 flashcardStore.createIndex('backside', 'backside', {unique : false})
              }
@@ -132,6 +132,8 @@ export class dbService {
       var flashcardtx = db.transaction('flashcard', 'readwrite');
       var flashcardstore = flashcardtx.objectStore('flashcard')
 
+
+
       var collectiontx = db.transaction('collection', 'readwrite');
       var collectionstore = collectiontx.objectStore('collection');
       console.log("open")
@@ -144,9 +146,18 @@ export class dbService {
         //flashcardstore.put(flashCardArray[i])
       }
       for (let i = 0; i < flashCardArray.length; i++) {
+        console.log(flashCardArray[i])
         //flashcardstore.delete(flashCardArray[i].flashcardid)
+
+
+
         flashcardstore.add(flashCardArray[i])
+
+
+
         //flashcardstore.put(flashCardArray[i])
+
+
       }
     }
     catch(error){
@@ -202,6 +213,44 @@ export class dbService {
       }
     }
 
+
+
+    static async deleteSingleCollectionByCollectionId(collectionId : string) {
+      //should probably also delete associated flashcards
+      try{
+
+        var currentCollectionFlashCards = await this.getFlashcardsByCollectionId(collectionId)
+
+        const db = await openDB('flashcards', 1);
+
+        var flashcardtx = db.transaction('flashcard', 'readwrite');
+        var flashcardstore = flashcardtx.objectStore('flashcard')
+
+        var collectiontx = db.transaction('collection', 'readwrite');
+        var collectionstore = collectiontx.objectStore('collection');
+
+        for (let i = 0; i < currentCollectionFlashCards.length; i++) {
+          flashcardstore.delete(currentCollectionFlashCards[i].flashcardid)
+          //flashcardstore.add(flashCardArray[i])
+          //flashcardstore.put(flashCardArray[i])
+        }
+
+        console.log("OPENN")
+        collectionstore.delete(collectionId)
+        console.log("DELETE da COLLECTION")
+      }
+      catch(error){
+        console.log(error)
+      }
+    }
+
+
+    static async getAllCollections() {
+        const db = await openDB('flashcards', 1);
+        const tx = db.transaction('collection', 'readwrite');
+        const store = tx.objectStore('collection')
+        return  store.getAll()
+    }
 
 
 

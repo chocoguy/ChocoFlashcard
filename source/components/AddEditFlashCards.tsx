@@ -16,6 +16,7 @@ export const AddEditFlashCards =  () => {
     var MainFlashCardArray : Array<Flashcard> = []
     var newCollectionUUID : string = uuid();
     var currentSetCollectionID = sessionStorage.getItem("currentCollectionID")
+    var currentSetCollectionName = sessionStorage.getItem("currentCollectionName")
     var isNewSet = sessionStorage.getItem("initNewSet");
 
     
@@ -141,11 +142,11 @@ export const AddEditFlashCards =  () => {
         //ADD MODE
         else{
 
-            if(isNewSet == "yea"){
+            if(isNewSet == "yea" && currentSetCollectionID != undefined && currentSetCollectionName != undefined){
                 await setCollection({
                     //typescript being a dumbass
                     collectionid : currentSetCollectionID,
-                    name : 'new collection',
+                    name : currentSetCollectionName,
                     flashCardCount : 0,
                     flashcards :  []
                 })
@@ -168,23 +169,25 @@ export const AddEditFlashCards =  () => {
 
     async function saveAll(){
         var newFlashCardCount : number = 1;
-        var updatedCollectionObj : Collection = {
-            collectionid : collection.collectionid,
-            name : collection.name,
-            flashcardcount : collection.flashCardCount
-        }
-
         var updatedFlashCardArray : Array<Flashcard> = collection.flashcards
 
         for( let i = 0; i < updatedFlashCardArray.length; i++) {
             updatedFlashCardArray[i].countid = newFlashCardCount
             newFlashCardCount = newFlashCardCount + 1
         }
+
+        var updatedCollectionObj : Collection = {
+            collectionid : collection.collectionid,
+            name : collection.name,
+            flashcardcount : updatedFlashCardArray.length
+        }
+
+
         console.log(updatedCollectionObj)
         console.log(updatedFlashCardArray)
         dbService.updateCollectionAndFlashCards(updatedCollectionObj, updatedFlashCardArray);
 
-        navigate('/')
+        //navigate('/')
     }
 
 

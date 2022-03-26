@@ -88,7 +88,8 @@ export const AddEditCollection =  () => {
 
     async function saveCollectionAndContinueSet(){
         dbService.addUpdateSingleCollection(collection)
-        sessionStorage.setItem("currentCollectionID", newCollectionUUID)
+        sessionStorage.setItem("currentCollectionID", collection.collectionid)
+        sessionStorage.setItem("currentCollectionName", collection.name)
         navigate("/addeditflashcards/-1")
     }
 

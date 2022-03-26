@@ -26,7 +26,7 @@ export const App = () => {
                     <Route path="/addeditcollection/:collectionid" element={<AddEditCollection />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/flashcards/:collectionid" element={<FlashCardCollection />} />
-                    <Route path="/practice/:collectionid" element={<FlashCardPractice />} />
+                    <Route path="/practice/:collectionid/:mode" element={<FlashCardPractice />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </HashRouter>

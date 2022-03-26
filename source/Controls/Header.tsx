@@ -6,7 +6,8 @@ export const Header = () => {
 
     let navigate = useNavigate();
 
-    async function initAddFlashCards() {
+    function initAddFlashCards() {
+        console.log("init")
         sessionStorage.setItem("initNewSet", "yea")
         navigate("/addeditcollection/-1")
     }
@@ -18,7 +19,7 @@ export const Header = () => {
             <nav style={{ display: 'flex',  }}>
                 <p>Test build yea..</p>
                 <Link to="/">Home |</Link>
-                <Link to="#" onClick={() => initAddFlashCards()}>Add Flashcards! |</Link>
+                <button onClick={() => initAddFlashCards()}>Add Flashcards! |</button>
                 <Link to="/viewflashcards">View! |</Link>
                 <Link to="/editflashcards">Edit! |</Link>
                 <Link to="/deleteflashcards">Delete! |</Link>
