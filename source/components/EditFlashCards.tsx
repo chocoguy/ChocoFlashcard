@@ -23,7 +23,7 @@ export const EditFlashCards = () => {
 
     return(
         <div>
-            <Header />
+            <Header title='- Edit Flashcards!' />
             <h1>Edit these flashcards</h1>
             {collections.map(collection => (
                 <div key={collection.collectionid}>

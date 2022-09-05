@@ -8,7 +8,8 @@ import { CollectionWithFlashcard } from '../db/CollectionWithFlashcard';
 import { v4 as uuid, v4 } from 'uuid';
 import { FlashCardComponent } from '../Controls/FlashCardComponent';
 import { CollectionComponent } from '../Controls/CollectionComponent';
-
+import  HomeSvg  from '../public/assets/house-solid.svg';
+import QuestionSvg from '../public/assets/circle-question-solid.svg';
 
 export const AddEditCollection =  () => {
 
@@ -116,26 +117,39 @@ export const AddEditCollection =  () => {
 
     if(params.collectionid == "-1" && isNewSet == "yea"){
         return (
-            
+        <div className='BackgroundDiv'>
             <div>
-                <Header />                
-                <h1>Add new SET!</h1>
+                <Header title='- Add Flashcards!'/>                
                 <CollectionComponent  collection={collection} passEditCollection={EditCollection} editMode={false} />
                 <div className="edit-btns">
-                    <button onClick={() => saveCollectionAndContinueSet()}>Next</button>
-                    <button onClick={() => cancelSet()}>Cancel</button>
                 </div>
             </div>
+            <div className='MainFooter'>
+            <div className='MainFooterFlex'>
+                <div>
+                    <img width={30} height={30}  src={HomeSvg} />
+                </div>
+                <div>
+                    <button className='FooterBtn' style={{background: "#EC8C8C"}} onClick={() => cancelSet()}>Cancel</button>
+                </div>
+                <div>
+                    <button className='FooterBtn' style={{background: "#99EC8C"}} onClick={() => saveCollectionAndContinueSet()}>Next</button>
+                </div>
+                <div>
+                    <img width={30} height={30} src={QuestionSvg} />
+                </div>
+            </div>
+        </div>
+    </div>
         )
     }else if(params.collectionid == "-1"){
         return (
             
             <div>
-                <Header />                
-                <h1>Add new collection</h1>
+                <Header title="- Add Collection!" />                
                 <CollectionComponent  collection={collection} passEditCollection={EditCollection} editMode={false} />
                 <div className="edit-btns">
-                    <button onClick={() => saveCollection()}>Save Collection</button>
+                    <button  onClick={() => saveCollection()}>Save Collection</button>
                     <button onClick={() => cancel()}>Cancel</button>
                 </div>
             </div>
@@ -144,9 +158,8 @@ export const AddEditCollection =  () => {
     else if(collection.collectionid != "0"){
     return(
         <div>
-            <Header />
-            <h1>Editing</h1>
-            <h1>collection name: {collection.name}</h1>
+            <Header title='- Edit Collection!' />
+            <h1>name: {collection.name}</h1>
             <CollectionComponent collection={collection} passEditCollection={EditCollection} editMode={false} />
                 <div className="edit-btns">
                     <button onClick={() => saveCollection()}>Save Collection</button>
@@ -158,7 +171,7 @@ export const AddEditCollection =  () => {
     }else {
         return(
         <div>
-        <Header />
+        <Header title='- AddEdit' />
         <h1>Collection not found </h1>
         </div>
         )

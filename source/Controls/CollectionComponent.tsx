@@ -47,19 +47,17 @@ export const CollectionComponent = (props : CollectionProps) => {
     {
         return (
             <div>
-                <p>Collection No: {props.collection.collectionid}</p>
-                <input type="text" disabled value={name} />
-                <button onClick={() => initEditMode()}>Edit</button>
+                <input className='GenericTextBox' type="text" disabled value={name} />
+                <button className='GenericButtonSmall' style={{background: "#99EC8C"}} onClick={() => initEditMode()}>Edit</button>
             </div>
         )
     }else{
         return (
             <div>
     
-                <p>Collection No: {props.collection.collectionid}</p>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                <button onClick={() => saveChanges()}>Save</button>
-                <button onClick={() => cancelChanges()}>Cancel</button>
+                <input className='GenericTextBox' type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                <button className='GenericButtonSmall' style={{background: "#99EC8C"}} onClick={() => saveChanges()}>Save</button>
+                <button className='GenericButtonSmall' style={{background: "#EC8C8C"}} onClick={() => cancelChanges()}>Cancel</button>
             </div>
         )
     }

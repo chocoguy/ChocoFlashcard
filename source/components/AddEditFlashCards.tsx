@@ -7,6 +7,8 @@ import { Flashcard } from '../db/Flashcard.types';
 import { CollectionWithFlashcard } from '../db/CollectionWithFlashcard';
 import { v4 as uuid, v4 } from 'uuid';
 import { FlashCardComponent } from '../Controls/FlashCardComponent';
+import  HomeSvg  from '../public/assets/house-solid.svg';
+import QuestionSvg from '../public/assets/circle-question-solid.svg';
 
 
 export const AddEditFlashCards =  () => {
@@ -221,20 +223,34 @@ export const AddEditFlashCards =  () => {
 
 
         return (
-            
-            <div>
-                <Header />                
-                <h1>Add new cards</h1>
-                {collection.flashcards.map(flashcard => (
+            <div className="BackgroundDiv">
+                <div>
+                    <Header title="- addeditflashcards" />    
+                    {collection.flashcards.map(flashcard => (
                     <div key={flashcard.flashcardid}>
                     <FlashCardComponent  flashCard={flashcard} passEditFlashCard={EditFlashCard} passDeleteFlashCard={PassDeleteFlashCard} editMode={false} />
                     </div>
                 ))}
-                <div className="edit-btns">
-                    <button onClick={() => initNewFlashCard()}>New Flashcard</button>
-                    <button onClick={() => saveAll()}>Save all</button>
-                    <button onClick={() => cancelSet()}>Cancel</button>
                 </div>
+                <div className='MainFooter'>
+            <div className='MainFooterFlex'>
+                <div>
+                    <img width={30} height={30}  src={HomeSvg} onClick={() => cancel()} />
+                </div>
+                <div>
+                    <button className='FooterBtn' style={{background: "#99EC8C"}} onClick={() => initNewFlashCard()}>New card</button>
+                </div>
+                <div>
+                    <button className='FooterBtn' style={{background: "#99EC8C"}} onClick={() => saveAll()}>Save all</button>
+                </div>
+                <div>
+                    <button className='FooterBtn' style={{background: "#EC8C8C"}} onClick={() => cancelSet()}>Cancel</button>
+                </div>
+                <div>
+                    <img width={30} height={30} src={QuestionSvg} />
+                </div>
+            </div>
+        </div>
             </div>
         )
     }else if(params.collectionid == "-1"){
@@ -243,7 +259,7 @@ export const AddEditFlashCards =  () => {
         return (
             
             <div>
-                <Header />                
+                <Header title="" />                
                 <h1>Add new cards</h1>
                 {collection.flashcards.map(flashcard => (
                     <div key={flashcard.flashcardid}>
@@ -260,7 +276,7 @@ export const AddEditFlashCards =  () => {
     }else if(collection.collectionid != "0"){
     return(
         <div>
-            <Header />
+            <Header title="" />
             <h1>Editing</h1>
             <h1>collection name: {collection.name}</h1>
             {collection.flashcards.map(flashcard => (
@@ -278,7 +294,7 @@ export const AddEditFlashCards =  () => {
     }else {
         return(
         <div>
-        <Header />
+        <Header title="" />
         <h1>Collection not found  </h1>
         </div>
         )

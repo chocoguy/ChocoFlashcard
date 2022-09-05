@@ -60,10 +60,12 @@ export const FlashCardComponent = (props : FlashCardComponentProps) => {
             <div>
     
                 <p>Flash card No: {props.flashCard.countid}</p>
-                <input type="text" disabled value={frontSideContent} />
-                <input type="text" disabled value={backSideContent}  />
-                <button onClick={() => initEditMode()}>Edit</button>
-                <button onClick={() => deleteFlashCard()}>Delete</button>
+                <p>Front side:</p><input className='GenericTextBox' type="text" disabled value={frontSideContent} />
+                <br />
+                <p>Back side:</p><input className='GenericTextBox' type="text" disabled value={backSideContent}  />
+                <br />
+                <button className='GenericButtonSmall' style={{background: "#99EC8C"}} onClick={() => initEditMode()}>Edit</button>
+                <button className='GenericButtonSmall' style={{background: "#EC8C8C"}} onClick={() => deleteFlashCard()}>Delete</button>
             </div>
         )
     }else{
@@ -71,11 +73,13 @@ export const FlashCardComponent = (props : FlashCardComponentProps) => {
             <div>
     
                 <p>Flash card No: {props.flashCard.countid}</p>
-                <input type="text" value={frontSideContent} onChange={(e) => setFrontSideContent(e.target.value)} />
-                <input type="text" value={backSideContent} onChange={(e) => setBackSideContent(e.target.value)} />
-                <button onClick={() => saveChanges()}>Save</button>
-                <button onClick={() => cancelChanges()}>Cancel</button>
-                <button onClick={() => deleteFlashCard()}>Delete</button>
+                <p>Front side:</p><input className='GenericTextBox' type="text" value={frontSideContent} onChange={(e) => setFrontSideContent(e.target.value)} />
+                <br />
+                <p>Back side:</p><input className='GenericTextBox' type="text" value={backSideContent} onChange={(e) => setBackSideContent(e.target.value)} />
+                <br />
+                <button className='GenericButtonSmall' style={{background: "#99EC8C"}} onClick={() => saveChanges()}>Save</button>
+                <button className='GenericButtonSmall' style={{background: "#EC8C8C"}} onClick={() => cancelChanges()}>Cancel</button>
+                <button className='GenericButtonSmall' style={{background: "#EC8C8C"}} onClick={() => deleteFlashCard()}>Delete</button>
             </div>
         )
     }

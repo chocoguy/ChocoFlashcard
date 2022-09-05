@@ -26,7 +26,7 @@ export const ViewFlashCards = () => {
 
     return(
         <div>
-            <Header />
+            <Header title='' />
             <h1>View flashcards</h1>
             {collections.map(collection => (
                 <div key={collection.collectionid}>

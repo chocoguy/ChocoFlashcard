@@ -137,7 +137,7 @@ export const FlashCardPractice = () => {
 
     return(
         <div>
-            <Header />
+            <Header title='- Collection' />
             <h1>Flash card practice on collection: {params.collectionid}</h1>
             <h3>{indxNum + 1}/{flashcards.length} Cards</h3>
             <br />
